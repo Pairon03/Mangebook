@@ -3,19 +3,25 @@
     <!-- Navbar -->
     <header>
       <nav class="navbar">
+        <!-- Logo -->
         <div class="logo">
           <img src="logo.png" alt="Logo Mangebook" />
         </div>
+
+        <!-- Caixa de pesquisa -->
         <div class="search-container">
           <input
             type="text"
-            v-model="searchTerm"
+            v-model="searchTerm" <!-- Liga o valor do campo de busca à variável `searchTerm` -->
             placeholder="Pesquisar Mangebook.com.br"
           />
-          <button class="search-btn" @click="search">Pesquisar</button>
+          <button class="search-btn" @click="search">Pesquisar</button> <!-- Chama a função de pesquisa -->
         </div>
+
+        <!-- Área de usuário -->
         <div class="user-area">
           <p>Olá, seja bem-vindo!</p>
+          <!-- Links para login e cadastro -->
           <router-link to="/login"><button class="login-btn">Entrar</button></router-link>
           <router-link to="/cadastro"><button class="register-btn">Cadastrar</button></router-link>
         </div>
@@ -28,24 +34,27 @@
       <div class="livros-category">
         <h3>Novidades para você</h3>
         <div class="livros">
+          <!-- Exibe livros divididos em linhas -->
           <div v-for="(row, index) in livrosRows" :key="index" class="livros-row">
             <div
               v-for="livro in row"
               :key="livro.id"
-              class="livro-item"
+              class="livro-item" <!-- Exibe cada livro individualmente -->
             >
-              <img :src="livro.image" :alt="livro.title" />
-              <p>{{ livro.title }}</p>
-              <p class="status">{{ livro.status }}</p>
+              <img :src="livro.image" :alt="livro.title" /> <!-- Exibe a imagem do livro -->
+              <p>{{ livro.title }}</p> <!-- Exibe o título do livro -->
+              <p class="status">{{ livro.status }}</p> <!-- Exibe o status do livro -->
             </div>
           </div>
         </div>
       </div>
+      <!-- Link para voltar -->
       <router-link to="/"><button class="back-btn">Voltar</button></router-link>
     </section>
 
     <!-- Rodapé -->
     <footer>
+      <!-- Links para redes sociais -->
       <div class="social-media">
         <img src="../../assets/Instagram.png" alt="Instagram" />
         <img src="../../assets/Facebook.png" alt="Facebook" />
@@ -53,6 +62,8 @@
         <a href="#" class="instagram-link">Instagram</a>
         <a href="#" class="facebook-link">Facebook</a>
       </div>
+
+      <!-- Logo no rodapé -->
       <div class="footer-logo">
         <img src="../../assets/logofooter.png" alt="Logo Mangebook" />
         <p>Mangebook - Livraria Digital</p>
@@ -62,53 +73,53 @@
 </template>
 
 <script>
-import api from '@/services/api.js'; // Serviço para interagir com a API
+// Importação do serviço API para buscar livros
+import api from '@/services/api.js'; 
 
 export default {
   data() {
     return {
-      searchTerm: '',
-      livros: [], // Lista de livros obtida da API
+      searchTerm: '', // Variável que armazena o termo de pesquisa
+      livros: [], // Lista de livros recebidos da API
       livrosRows: [] // Livros organizados em linhas
     };
   },
   methods: {
+    // Função para buscar livros na API
     async fetchLivros() {
       try {
-        const response = await api.getBooks(); // Chamada para a API
-        this.livros = response.data; // Atualiza os livros com os dados recebidos
-        this.organizeLivros(); // Organiza os livros em linhas para o grid
+        const response = await api.getBooks(); // Chama a API para obter os livros
+        this.livros = response.data; // Armazena os livros recebidos
+        this.organizeLivros(); // Organiza os livros em linhas
       } catch (error) {
-        console.error('Erro ao buscar os livros:', error);
+        console.error('Erro ao buscar os livros:', error); // Exibe erros no console, caso haja falhas na requisição
       }
     },
+    // Organiza os livros em linhas, com 3 livros por linha
     organizeLivros() {
-      // Divide os livros em linhas de até 3 itens (pode ajustar conforme o layout)
       const rows = [];
       for (let i = 0; i < this.livros.length; i += 3) {
-        rows.push(this.livros.slice(i, i + 3));
+        rows.push(this.livros.slice(i, i + 3)); // Adiciona os livros às linhas
       }
-      this.livrosRows = rows;
+      this.livrosRows = rows; // Atualiza o estado com as linhas organizadas
     },
+    // Função de pesquisa que filtra os livros conforme o termo de busca
     search() {
-      // Implementação de lógica de pesquisa
-      console.log("Termo de pesquisa:", this.searchTerm);
-      // Filtra os livros conforme o termo de pesquisa
+      console.log("Termo de pesquisa:", this.searchTerm); // Exibe o termo de pesquisa no console
       this.livrosRows = this.livros
-        .filter((livro) => livro.title.toLowerCase().includes(this.searchTerm.toLowerCase()))
+        .filter((livro) => livro.title.toLowerCase().includes(this.searchTerm.toLowerCase())) // Filtra livros com base no título
         .reduce((rows, livro, index) => {
-          if (index % 3 === 0) rows.push([]);
+          if (index % 3 === 0) rows.push([]); // Cria novas linhas de 3 livros
           rows[rows.length - 1].push(livro);
           return rows;
-        }, []);
+        }, []); // Reduz a lista de livros para as linhas
     }
   },
   mounted() {
-    this.fetchLivros(); // Busca os livros ao montar o componente
+    this.fetchLivros(); // Chama a função de buscar livros ao montar o componente
   }
 };
 </script>
-
 
 <style scoped>
 /* Reset básico */
@@ -143,10 +154,11 @@ header::before {
   height: 100%;
   background: url('../../assets/livraria.PNG') no-repeat center center;
   background-size: cover;
-  filter: blur(3px);
-  z-index: -1;
+  filter: blur(3px); /* Aplica o desfoque na imagem de fundo */
+  z-index: -1; /* Mantém a imagem de fundo atrás dos outros elementos */
 }
 
+/* Navbar */
 .navbar {
   position: absolute;
   width: 100%;
@@ -162,7 +174,7 @@ header::before {
   height: 100px;
 }
 
-/* Caixa de busca */
+/* Caixa de pesquisa */
 .search-container {
   display: flex;
   align-items: center;
@@ -201,6 +213,7 @@ header::before {
   margin-right: 10px;
 }
 
+/* Botões de login e cadastro */
 .login-btn, .register-btn {
   background-color: #fff;
   color: #0066cc;
@@ -253,6 +266,7 @@ header::before {
   color: green;
 }
 
+/* Rodapé */
 footer {
   background-color: #0f1111;
   color: #fff;
@@ -267,14 +281,17 @@ footer {
 }
 
 .footer-logo img {
-  height
-: 100px;
-    margin-top: 10px;
-  }
-  
-  .footer-logo p {
-    margin-top: 5px;
-    color: #b3b3b3;
-  }
-  </style>
-  
+  height: 100px;
+  margin-top: 10px;
+}
+
+.footer-logo p {
+  margin-top: 5px;
+  color: #b3b3b3;
+}
+
+footer a {
+  color: #00aaff;
+  text-decoration: none;
+}
+</style>
