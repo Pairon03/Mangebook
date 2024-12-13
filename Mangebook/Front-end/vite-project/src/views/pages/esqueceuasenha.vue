@@ -1,0 +1,121 @@
+<template>
+    <div class="form-container">
+      <form class="form" @submit.prevent="handleSubmit">
+        <p class="form-title">Recuperar Senha</p>
+        <div class="input-container">
+          <input
+            type="email"
+            v-model="email"
+            placeholder="Coloque seu email cadastrado"
+            required
+          />
+          <span></span>
+        </div>
+        <button type="submit" class="submit">Enviar</button>
+        <p class="signup-link">
+          Lembrou sua senha?
+          <router-link to="/login">Faça login</router-link>
+          <br />
+          <img src="logo.png" alt="Logo da Empresa" class="logo" />
+        </p>
+      </form>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    data() {
+      return {
+        email: '',
+      };
+    },
+    methods: {
+      handleSubmit() {
+        // Implementar a lógica de envio de e-mail
+        console.log('Email enviado para:', this.email);
+      },
+    },
+  };
+  </script>
+  
+  <style scoped>
+  /* Estilos do formulário */
+  .form {
+    background-color: #fff;
+    display: block;
+    padding: 1rem;
+    max-width: 450px;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    margin: 0 auto; /* Centraliza horizontalmente */
+  }
+  
+  /* Centralização da página */
+  .form-container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    min-height: 100vh; /* Garante que ocupe toda a altura da tela */
+    margin: 0;
+    background-color: #f3f4f6; /* Exemplo de cor de fundo */
+  }
+  
+  .form-title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+  }
+  
+  .input-container {
+    position: relative;
+  }
+  
+  .input-container input,
+  .form button {
+    outline: none;
+    border: 1px solid #e5e7eb;
+    margin: 8px 0;
+  }
+  
+  .input-container input {
+    background-color: #fff;
+    padding: 1rem;
+    padding-right: 3rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    width: 300px;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  
+  .submit {
+    display: block;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background-color: #4f46e5;
+    color: #ffffff;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+  }
+  
+  .signup-link {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-align: center;
+  }
+  
+  .signup-link a {
+    text-decoration: underline;
+  }
+  </style>
+  
